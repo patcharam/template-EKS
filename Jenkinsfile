@@ -6,8 +6,7 @@ stage("Build : Docker"){
             node(podLabel) {
                 checkout scm
                 withAWS(credentials: 'gameKey', region: 'ap-southeast-1') {
-                   ecrLogin()
-                ecrListImages()
+                ecrLogin()
                 container('docker'){
                     def accountIdentity = awsIdentity()
                     def IMAGE_REPO_NAME = "XXXXXX"
