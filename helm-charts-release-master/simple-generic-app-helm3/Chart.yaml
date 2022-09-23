@@ -1,5 +1,0 @@
-apiVersion: v1
-appVersion: "1.2"
-descritpion: Simple Generic Application Chart Helm3
-name: simple-generic-app-helm3
-version: 1.2

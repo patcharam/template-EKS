@@ -1,5 +1,0 @@
-apiVersion: v1
-appVersion: "1.1"
-descritpion: Simple Generic Application Chart
-name: simple-generic-app
-version: 1.1
