@@ -9,7 +9,7 @@ stage("Build : Docker"){
                 ecrLogin()
                 container('docker'){
                     def accountIdentity = awsIdentity()
-                    def IMAGE_REPO_NAME = "XXXXXX"
+                    def IMAGE_REPO_NAME = "demo"
                     sh "docker pull nginx:latest"
                     sh "docker images"
                     sh "docker tag nginx:latest ${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${BUILD_NUMBER}"
