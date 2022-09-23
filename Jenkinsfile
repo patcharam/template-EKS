@@ -66,7 +66,8 @@ podTemplate(containers: [
                         def accountIdentity = awsIdentity()
                         //def IMAGE_REPO_NAME = "demo"
                         //def AWS_DEFAULT_REGION = "ap-southeast-1"
-                        def helmOptions = "--set-string \"image.repository=${imgName},image.tag=${imgTag}\" --atomic --cleanup-on-fail"
+                        echo IMAGE_REPO_NAME
+                        def helmOptions = "--set-string \"image.repository=${IMAGE_REPO_NAME},image.tag=${BUILD_NUMBER}\" --atomic --cleanup-on-fail"
                         sh "aws eks --region ap-southeast-1 update-kubeconfig --name cluster-01"
                         sh "helm upgrade -i test --namespace myweb -f $helmOptions simple-generic-eks"   
                         // kubectl apply -f eks-myweb-deploy.yml
