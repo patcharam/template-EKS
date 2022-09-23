@@ -14,6 +14,9 @@ stage("Build : Docker"){
                     sh "docker images"
                     sh "docker tag nginx:latest ${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${BUILD_NUMBER}"
                     sh "docker images"
+                    sh "docker push ${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${BUILD_NUMBER}"
+                    
+                    ecrListImages()
                     
                     }
                 }
