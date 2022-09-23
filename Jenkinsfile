@@ -1,3 +1,4 @@
+@Library('sharedlib@podstemplate') _
 node("linux-01")
 {
     switch(env.BRANCH_NAME) {
@@ -10,11 +11,31 @@ node("linux-01")
 
     case "main":
 
-        checkout scm
-        
-        echo "${env.BUILD_NUMBER}"
-        echo "<images-repo>:<tag>"
-        echo "<images-repo>:${env.BUILD_NUMBER}"
+        stage("Build : Docker"){
+
+        String podLabel = "${env.JOB_NAME}-${UUID.randomUUID().toString()[-3..-1]}".replace("/", "-")
+
+        podTemplate(label: podLabel , yaml : libraryResource('Docker.yaml')) {
+
+            timestamps {
+
+                node(podLabel) {
+
+                    checkout scm
+
+                    container('docker'){
+
+                    sh "docker images"
+
+                    }
+
+                }
+
+            }
+
+        }          
+
+    }
 
         break
 
