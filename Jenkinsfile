@@ -25,6 +25,7 @@ node("linux-01")
 
                     container('docker'){
 
+                    sh "docker pull nginx"
                     sh "docker images"
 
                     }
