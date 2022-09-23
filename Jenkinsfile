@@ -1,4 +1,6 @@
-switch(env.BRANCH_NAME) {
+node("linux-01")
+{
+    switch(env.BRANCH_NAME) {
 
     case "develop":
 
@@ -16,4 +18,5 @@ switch(env.BRANCH_NAME) {
 
         break
 
+}
 }
