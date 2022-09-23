@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "template-deploy.fullname" . }}
+  labels:
+    app: {{ include "template-deploy.name" . }}
+    helm.sh/chart: {{ include "template-deploy.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      {{- include "template-deploy.selectorLabels" . | nindent 6 }}
+  strategy:
+    # Blue-Green Deployment
+    {{- if .Values.deployType }}
+    type: Recreate
+    {{ else }}
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0
+    {{- end }}  
+  template:
+    metadata:
+      labels:
+        {{- include "template-deploy.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- range .Values.imagePullSecrets }}
+        - name: {{ . }}
+        {{- end }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.containerPorts }}
+          ports:
+            {{- range .Values.containerPorts }}
+            - containerPort: {{ . }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.env }}
+          env:
+            # env_sample
+            # env:
+            # - name: variable01
+            #   secret:
+            #     name: secret01
+            #     key: secretKey01
+            # - name: variable02
+            #   configmap:
+            #     name: configmap02 (use app's fullname if not defined)
+            #     key: configmapKey02
+            # - name: variable03
+            #   value: value03
+            {{- range .Values.env }}
+            - name: {{ .name }}
+              {{- if .secret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .secret.name }}
+                  key: {{ .secret.key }}
+              {{- else if .configmap }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .configmap.name | default (include "app-deployment.fullname" $) }}
+                  key: {{ .configmap.key }}
+              {{- else }}
+              value: {{ .value | quote }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.envFrom }}
+          envFrom:
+            # envFrom_sample
+            # envFrom:
+            # - prefix: PF_ (prefix is optional)
+            #   secret:
+            #     name: db-secret
+            # - configmap:
+            #     name: app-configmap (use app's fullname if not defined)
+            {{- range .Values.envFrom }}
+            - {{ if .secret -}}
+              secretRef:
+                name: {{ .secret.name }}
+              {{ else if .configmap -}}
+              configMapRef:
+                name: {{ .configmap.name | default (include "app-deployment.fullname" $) }}
+              {{- end }}
+              {{ if .prefix -}}
+              prefix: {{ .prefix | quote }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
