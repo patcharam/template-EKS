@@ -30,17 +30,17 @@ spec:
       steps {
         git 'https://github.com/sd031/aws_codebuild_codedeploy_nodeJs_demo.git'
         container(name: 'kaniko') {
-               withAWS(credentials: 'keyGame', region: 'ap-southeast-1') {
+               withAWS(credentials: 'gameKey', region: 'ap-southeast-1') {
                    ecrLogin()
-                    sh """
-                        /kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${BUILD_NUMBER}
-                    """ 
+                    // sh """
+                    //     /kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${BUILD_NUMBER}
+                    // """ 
                     script { 
                         def accountIdentity = awsIdentity()
-                        def IMAGE_REPO_NAME = "devops-gc-poc"
-                        // sh """
-                        //     /kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${BUILD_NUMBER}
-                        // """     
+                        def IMAGE_REPO_NAME = "demo"
+                        sh """
+                            /kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${BUILD_NUMBER}
+                        """     
                     }
                                   
                 }
