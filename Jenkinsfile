@@ -60,36 +60,36 @@ podTemplate(containers: [
         stage('AWS') {
             checkout scm
             sh "ls"
-            container('awscli-kubectl-helm') {
-                stage('check aws login') {
-                    withAWS(credentials: 'gameKey', region: 'ap-southeast-1') {
-                    script { 
-                        //def accountIdentity = awsIdentity()
-                        //def IMAGE_REPO_NAME = "demo"
-                        //def AWS_DEFAULT_REGION = "ap-southeast-1"
-                        sh """
-                            aws sts get-caller-identity
-                            aws eks --region ap-southeast-1 update-kubeconfig --name cluster-01
-                            kubectl get pods --all-namespaces
-                            helm list
-                            ls
-                            pwd
+    //         container('awscli-kubectl-helm') {
+    //             stage('check aws login') {
+    //                 withAWS(credentials: 'gameKey', region: 'ap-southeast-1') {
+    //                 script { 
+    //                     //def accountIdentity = awsIdentity()
+    //                     //def IMAGE_REPO_NAME = "demo"
+    //                     //def AWS_DEFAULT_REGION = "ap-southeast-1"
+    //                     sh """
+    //                         aws sts get-caller-identity
+    //                         aws eks --region ap-southeast-1 update-kubeconfig --name cluster-01
+    //                         kubectl get pods --all-namespaces
+    //                         helm list
+    //                         ls
+    //                         pwd
                             
-                            helm version --short | cut -d + -f 1
+    //                         helm version --short | cut -d + -f 1
                             
-                            kubectl get pods --all-namespaces
-                            kubectl get services --all-namespaces
+    //                         kubectl get pods --all-namespaces
+    //                         kubectl get services --all-namespaces
                             
                             
                             
-                        """     
-                        // kubectl apply -f eks-myweb-deploy.yml
-                        // kubectl get all -n myweb
-                    }
-                }
-                }
+    //                     """     
+    //                     // kubectl apply -f eks-myweb-deploy.yml
+    //                     // kubectl get all -n myweb
+    //                 }
+    //             }
+    //             }
 
-    }
+    // }
         }
     }
   }
