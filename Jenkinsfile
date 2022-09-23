@@ -52,7 +52,6 @@
 // }
 
 podTemplate(containers: [
-    containerTemplate(name: 'aws-cli', image: 'amazon/aws-cli', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'awscli-kubectl-helm', image: 'kennywong137/awscli-kubectl-helm', ttyEnabled: true, command: 'cat')
   ]) {
 
@@ -90,6 +89,18 @@ podTemplate(containers: [
     //             }
 
     // }
+        }
+    }
+  }
+  podTemplate(containers: [
+    containerTemplate(name: 'awscli-kubectl-helm', image: 'kennywong137/awscli-kubectl-helm', ttyEnabled: true, command: 'cat')
+  ]) {
+
+    node(POD_LABEL) {
+        stage('AWS2') {
+            checkout scm
+            sh "ls"
+    
         }
     }
   }
