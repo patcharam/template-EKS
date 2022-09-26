@@ -42,6 +42,7 @@ spec:
                             /kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${BUILD_NUMBER}
                         """     
                     }
+
                                   
                 }
 
@@ -67,10 +68,13 @@ podTemplate(containers: [
                         def accountIdentity = awsIdentity()
                         def IMAGE_REPO_NAME = "demo"
                         //def AWS_DEFAULT_REGION = "ap-southeast-1"
+                        echo accountIdentity
                         echo IMAGE_REPO_NAME
-                        def helmOptions = "--set-string \"image.repository=${IMAGE_REPO_NAME},image.tag=${BUILD_NUMBER}\" --atomic --cleanup-on-fail"
-                        sh "aws eks --region ap-southeast-1 update-kubeconfig --name cluster-01"
-                        sh "helm upgrade -i test --namespace myweb -f helm_values/dev.yaml  $helmOptions simple-generic-eks"   
+                        echo "${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+                        //def helmOptions = "--set-string \"image.repository=${IMAGE_REPO_NAME},image.tag=${BUILD_NUMBER}\" --atomic --cleanup-on-fail"
+                        //sh "aws eks --region ap-southeast-1 update-kubeconfig --name cluster-01"
+                        //"helm upgrade -i test --namespace myweb -f helm_values/dev.yaml  $helmOptions simple-generic-eks" 
+
                         // kubectl apply -f eks-myweb-deploy.yml
                         // kubectl get all -n myweb
                     }
