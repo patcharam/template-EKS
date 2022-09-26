@@ -6,7 +6,7 @@ nameOverride: do65007-clm-common-backend-dev
 fullnameOverride: do65007-clm-common-backend-dev
 
 containerPorts:
-  - 3000
+  - 80
       
 # volumeMounts:
 #   - name: do65007-clm-common-backend-dev-pvc
