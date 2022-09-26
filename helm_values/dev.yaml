@@ -1,0 +1,71 @@
+replicaCount: 1
+
+deployType: Recreate
+
+nameOverride: do65007-clm-common-backend-dev
+fullnameOverride: do65007-clm-common-backend-dev
+
+containerPorts:
+  - 3000
+      
+# volumeMounts:
+#   - name: do65007-clm-common-backend-dev-pvc
+#     mountPath: /data/db/
+# volumes:
+#   - name: do65007-clm-common-backend-dev-pvc
+#     persistentVolumecommon:
+#       commonName: do65007-clm-common-backend-dev-pvc
+
+image:
+  repository: 104568846065.dkr.ecr.ap-southeast-1.amazonaws.com/demo
+  pullPolicy: Always
+  tag : nginx
+
+imagePullSecrets:
+  - acr-secret
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1000Mi
+  limits:
+    cpu: 500m
+    memory: 1000Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+service:
+  enabled: true
+  type: LoadBalancer
+  annotation: {}
+  ports:
+    - name: do65007-clm-common-backend-dev-svc
+      protocol: TCP
+      externalPort: 80
+      internalPort: 80
+
+ingress:
+  enabled: false
+  annotations: 
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+  tls :
+    - hosts :
+        - clm-app-ptt.eastasia.cloudapp.azure.com
+      secretName : tls-secret
+  hosts:
+    - host: clm-app-ptt.eastasia.cloudapp.azure.com
+      paths:
+        - path: /common-be(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: do65007-clm-common-backend-dev
+              port:
+                number: 80
