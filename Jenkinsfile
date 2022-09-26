@@ -63,6 +63,7 @@ podTemplate(containers: [
                 stage('push EKS') {
                     withAWS(credentials: 'gameKey', region: 'ap-southeast-1') {
                     script { 
+                    ecrLogin()
                         def accountIdentity = awsIdentity()
                         def IMAGE_REPO_NAME = "demo"
                         //def AWS_DEFAULT_REGION = "ap-southeast-1"
