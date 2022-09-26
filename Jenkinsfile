@@ -60,7 +60,7 @@ podTemplate(containers: [
             checkout scm
             sh "ls"
             container('awscli-kubectl-helm') {
-                stage('check aws login') {
+                stage('push EKS') {
                     withAWS(credentials: 'gameKey', region: 'ap-southeast-1') {
                     script { 
                         def accountIdentity = awsIdentity()
@@ -69,7 +69,7 @@ podTemplate(containers: [
                         echo IMAGE_REPO_NAME
                         def helmOptions = "--set-string \"image.repository=${IMAGE_REPO_NAME},image.tag=${BUILD_NUMBER}\" --atomic --cleanup-on-fail"
                         sh "aws eks --region ap-southeast-1 update-kubeconfig --name cluster-01"
-                        sh "helm upgrade -i test --namespace myweb -f $helmOptions simple-generic-eks"   
+                        sh "helm upgrade -i test --namespace myweb $helmOptions simple-generic-eks"   
                         // kubectl apply -f eks-myweb-deploy.yml
                         // kubectl get all -n myweb
                     }
