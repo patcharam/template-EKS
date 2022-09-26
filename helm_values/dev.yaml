@@ -6,7 +6,7 @@ nameOverride: do65007-clm-common-backend-dev
 fullnameOverride: do65007-clm-common-backend-dev
 
 containerPorts:
-  - 80
+  - 3000
       
 # volumeMounts:
 #   - name: do65007-clm-common-backend-dev-pvc
@@ -45,7 +45,7 @@ service:
   ports:
     - name: do65007-clm-common-backend-dev-svc
       protocol: TCP
-      externalPort: 80
+      externalPort: 3000
       internalPort: 80
 
 ingress:
