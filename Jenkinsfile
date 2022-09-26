@@ -26,7 +26,7 @@ spec:
   }
 
   stages {
-    stage('Build with Kaniko') {
+    stage('Build ecr') {
       steps {
         git 'https://github.com/sd031/aws_codebuild_codedeploy_nodeJs_demo.git'
         container(name: 'kaniko') {
