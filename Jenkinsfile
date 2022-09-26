@@ -28,8 +28,7 @@ spec:
   stages {
     stage('Build ecr') {
       steps {
-        //git 'https://github.com/sd031/aws_codebuild_codedeploy_nodeJs_demo.git'
-        git 'https://github.com/nginxinc/docker-nginx.git'
+        git 'https://github.com/sd031/aws_codebuild_codedeploy_nodeJs_demo.git'
         container(name: 'kaniko') {
                withAWS(credentials: 'gameKey', region: 'ap-southeast-1') {
                    ecrLogin()
