@@ -68,7 +68,6 @@ podTemplate(containers: [
                         def accountIdentity = awsIdentity()
                         def IMAGE_REPO_NAME = "demo"
                         //def AWS_DEFAULT_REGION = "ap-southeast-1"
-                        echo accountIdentity
                         echo IMAGE_REPO_NAME
                         echo "${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
                         //def helmOptions = "--set-string \"image.repository=${IMAGE_REPO_NAME},image.tag=${BUILD_NUMBER}\" --atomic --cleanup-on-fail"
