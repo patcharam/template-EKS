@@ -72,7 +72,7 @@ podTemplate(containers: [
 
                         def helmOptions = "--set-string \"image.repository=${IMAGE_REPO_NAME},image.tag=${BUILD_NUMBER}\" --atomic --cleanup-on-fail"
                         sh "aws eks --region ap-southeast-1 update-kubeconfig --name cluster-01"
-                        "helm upgrade -i test --namespace myweb -f helm_values/dev.yaml  $helmOptions simple-generic-eks" 
+                        sh "helm upgrade -i test --namespace myweb -f helm_values/dev.yaml  $helmOptions simple-generic-eks" 
 
                         // kubectl apply -f eks-myweb-deploy.yml
                         // kubectl get all -n myweb
