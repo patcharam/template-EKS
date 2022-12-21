@@ -37,7 +37,7 @@ spec:
                     // """ 
                     script { 
                         def accountIdentity = awsIdentity()
-                        def IMAGE_REPO_NAME = "demo"
+                        def IMAGE_REPO_NAME = "demo-repo1"
                         sh """
                             /kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${BUILD_NUMBER}
                         """     
