@@ -37,7 +37,7 @@ spec:
                     // """ 
                     script { 
                         def accountIdentity = awsIdentity()
-                        def IMAGE_REPO_NAME = "demo-repo1"
+                        def IMAGE_REPO_NAME = "demo-repo01"
                         sh """
                             /kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${BUILD_NUMBER}
                         """     
@@ -66,7 +66,7 @@ podTemplate(containers: [
                     script { 
                     ecrLogin()
                         def accountIdentity = awsIdentity()
-                        def IMAGE_REPO_NAME = "${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/demo-repo1"
+                        def IMAGE_REPO_NAME = "${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/demo-repo01"
                         //def AWS_DEFAULT_REGION = "ap-southeast-1"
                         echo IMAGE_REPO_NAME
 
