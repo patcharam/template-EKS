@@ -66,7 +66,7 @@ podTemplate(containers: [
                     script { 
                     ecrLogin()
                         def accountIdentity = awsIdentity()
-                        def IMAGE_REPO_NAME = "${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/demo-repo01"
+                        def IMAGE_REPO_NAME = "${accountIdentity.account}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/angular-repo01"
                         //def AWS_DEFAULT_REGION = "ap-southeast-1"
                         echo IMAGE_REPO_NAME
 
