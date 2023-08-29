@@ -17,7 +17,7 @@ containerPorts:
 #       commonName: do65007-clm-common-backend-dev-pvc
 
 image:
-  repository: 104568846065.dkr.ecr.ap-southeast-1.amazonaws.com/demo
+  repository: 104568846065.dkr.ecr.ap-southeast-1.amazonaws.com/angular-repo01
   pullPolicy: Always
   tag : nginx
 
